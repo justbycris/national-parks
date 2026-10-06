@@ -1,0 +1,1 @@
+export const REGIONS = ['West', 'Southwest', 'Midwest', 'Northeast', 'Southeast', 'Alaska'] as const

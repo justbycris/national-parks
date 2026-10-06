@@ -1,69 +1,67 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { client } from '@/sanity/lib/client'
+import { ParkCard } from '@/components/ParkCard'
+import { RegionFilter } from '@/components/RegionFilter'
+import { REGIONS } from '@/regions'
+import type { Park } from '@/types'
+import styles from './page.module.css'
+import { ParksChart, type ChartPark } from '@/components/ParksChart'
 
-export default function Home() {
+const CHART_QUERY = `*[_type == "park" && defined(acres) && defined(annualVisitors)]{
+  _id, name, acres, annualVisitors
+}`
+
+
+const PARKS_QUERY = `*[_type == "park" && (!defined($region) || region == $region)] | order(name asc) {
+  _id,
+  name,
+  "slug": slug.current,
+  summary,
+  region,
+  "imageUrl": image.asset->url,
+  "imageAlt": image.alt
+}`
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ region?: string }>
+}) {
+  const { region } = await searchParams
+  const activeRegion = REGIONS.find((r) => r === region) // ignore unknown values
+
+const [parks, chartParks] = await Promise.all([
+  client.fetch<Park[]>(PARKS_QUERY, { region: activeRegion ?? null }, { next: { revalidate: 60 } }),
+  client.fetch<ChartPark[]>(CHART_QUERY, {}, { next: { revalidate: 60 } }),
+])
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+    <main className={styles.main}>
+      <header className={styles.header}>
+        <h1 className={styles.heading}>National Parks</h1>
+        <p className={styles.lede}>Explore America's protected landscapes.</p>
+      </header>
+
+      <RegionFilter active={activeRegion} />
+
+      {parks.length === 0 ? (
+        <p>No parks in this region yet.</p>
+      ) : (
+        <ul className={styles.grid}>
+          {parks.map((park, index) => (
+            <li key={park._id} style={{ '--i': index } as React.CSSProperties}>
+              <ParkCard park={park} priority={index < 3} />
+            </li>
+          ))}
+        </ul>
+      )}
+      <section id="chart" className={styles.chartSection} aria-labelledby="chart-heading">
+  <h2 id="chart-heading" className={styles.chartHeading}>Big isn't the same as busy</h2>
+  <p className={styles.chartLede}>
+    Toggle between size and visitors and watch the ranking reshuffle. The biggest parks are
+    often among the quietest.
+  </p>
+  <ParksChart parks={chartParks} />
+</section>
+    </main>
+  )
 }

@@ -1,0 +1,103 @@
+.hero {
+  position: relative;
+  min-height: min(85vh, 780px);
+  display: grid;
+  align-items: end;
+  background: var(--color-forest);
+  color: #fff;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes settle {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+
+.heroImage { 
+  object-fit: cover; z-index: -2;
+  animation: settle 1.6s var(--ease-out) both; /* keep object-fit and z-index */ 
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.75), rgb(0 0 0 / 0.05) 60%);
+}
+.heroText {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4);
+}
+
+.heroText > * { animation: rise 0.8s var(--ease-out) both; }
+.heroText > :nth-child(2) { animation-delay: 0.08s; }
+.heroText > :nth-child(3) { animation-delay: 0.16s; }
+.heroText > :nth-child(4) { animation-delay: 0.24s; }
+
+@supports (animation-timeline: view()) {
+  .stats > div {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+}
+
+
+
+.back { color: rgb(255 255 255 / 0.85); text-decoration: none; display: inline-block; margin-bottom: var(--space-5); }
+.back:hover { color: #fff; text-decoration: underline; }
+
+.region {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f0c9a8;
+}
+.title { font-size: var(--text-xl); }
+.states { margin: var(--space-2) 0 0; color: rgb(255 255 255 / 0.85); }
+
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+}
+.summary {
+  font-size: var(--text-lg);
+  margin: var(--space-4) 0;
+  max-width: 65ch;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-5) 0;
+}
+.stats > div {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+}
+.stats dt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.stats dd {
+  margin: var(--space-1) 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+}
+
+.subheading { font-size: var(--text-lg); margin-bottom: var(--space-3); }
+.highlights { padding-left: var(--space-4); display: grid; gap: var(--space-2); }
