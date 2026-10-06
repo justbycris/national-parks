@@ -1,12 +1,12 @@
 # National Parks
 
 
-![Alt text](/national-parks/public/NP-screenshot-website.png "National Parks Wiki project screenshot")
+![National Parks Wiki project screenshot](./public/NP-screenshot-website.png)
 
 
 An editorial-style guide to 20 U.S. national parks, built with Next.js and Sanity. It has image-led listing and detail pages, and one interactive piece: a bar chart that makes a simple point, **big isn't the same as busy**. Some of the largest parks get a tiny share of the visitors that much smaller parks do.
 
-**Live site:** [[add URL after deploying](https://nationalparkswiki.netlify.app/)]
+**Live site:** [[Live website](https://nationalparkswiki.netlify.app/)]
 **Data:** park acreage and recreation visits from the National Park Service, [add year]
 
 ## What's in it
