@@ -9,7 +9,7 @@ export function SiteHeader() {
         <nav aria-label="Main">
           <ul className={styles.links}>
             <li><Link href="/" className={styles.link}>Parks</Link></li>
-            <li><Link href="/#chart" className={styles.link}>Stats</Link></li>
+            <li><Link href="/stats" className={styles.link}>Stats</Link></li>
           </ul>
         </nav>
       </div>

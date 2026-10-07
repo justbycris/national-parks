@@ -23,6 +23,7 @@
   display: grid;
   gap: var(--space-3);
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+
 }
 
 .grid > li { 
@@ -36,31 +37,6 @@
   to { opacity: 1; transform: none; }
 }
 
-
-.chartSection { 
-  margin-top: var(--space-6); 
-  padding-top: var(--space-5); 
-  border-top: 1px solid var(--color-border); 
-  scroll-margin-top: 5rem;
-}
-.chartHeading { 
-  font-size: var(--text-xl); 
-}
-.chartLede { 
-  max-width: 55ch; 
-  color: var(--color-text-muted); 
-  font-size: var(--text-lg); 
-  margin: var(--space-3) 0 var(--space-5); 
-}
-
-@supports (animation-timeline: view()) {
-  .chartHeading,
-  .chartLede {
-    animation: rise linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 60%;
-  }
-}
 
 @media (min-width: 800px) {
   .grid > li:first-child { grid-column: span 2; min-height: 560px; }

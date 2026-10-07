@@ -11,10 +11,10 @@ export function ParkCard({ park, priority = false }: { park: Park; priority?: bo
         {park.imageUrl && (
           <Image
             src={park.imageUrl}
-            alt={park.imageAlt ?? ''}
+            alt={park.imageAlt ?? 'Picture of ' + park.name}
             fill
             priority={priority}
-            sizes="(min-width: 960px) 33vw, (min-width: 600px) 50vw, 100vw"
+            sizes="(max-width: 768px) 100vw, 33vw "
             className={styles.image}
           />
         )}

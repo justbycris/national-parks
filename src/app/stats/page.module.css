@@ -1,0 +1,30 @@
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+}
+
+.header {
+  margin-bottom: var(--space-5);
+  animation: rise 0.8s var(--ease-out) both;
+}
+
+.heading { font-size: var(--text-xl); }
+
+.lede {
+  max-width: 55ch;
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+.source {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
