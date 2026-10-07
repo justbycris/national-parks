@@ -32,7 +32,7 @@ export default async function StatsPage() {
 
       <ParksChart parks={chartParks} />
 
-      <p className={styles.source}>Acreage and visitor counts: National Park Service.</p>
+      <p className={styles.source}><small>Acreage and visitor counts based on data from 2025: National Park Service. https://www.nps.gov/subjects/socialscience/visitor-use-statistics-dashboard.htm</small></p>
     </main>
   )
 }
