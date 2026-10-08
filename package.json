@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",
@@ -19,6 +23,7 @@
     "styled-components": "^6.5.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
