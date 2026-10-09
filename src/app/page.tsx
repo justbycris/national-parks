@@ -36,7 +36,7 @@ const parks = await client.fetch<Park[]>(
     <main className={styles.main}>
       <header className={styles.header}>
         <h1 className={styles.heading}>National Parks</h1>
-        <p className={styles.lede}>Explore America's protected landscapes.</p>
+        <p className={styles.lede}>Explore America&apos;s protected landscapes.</p>
       </header>
 
       <StatsTeaser />

@@ -2,32 +2,23 @@
 
 import styles from './ParksChart.module.css'
 import { useEffect, useRef, useState } from 'react'
+import { LAYOUT, barWidth, niceMax, rankParks, type ChartPark, type Metric } from '@/lib/chart'
 
-export type ChartPark = { _id: string; name: string; acres: number; annualVisitors: number }
-type Metric = 'annualVisitors' | 'acres'
+export type { ChartPark } from '@/lib/chart' // keeps the import in stats/page.tsx working
+const { W, LABEL, PAD_R, TOP, ROW, BAR, AXIS, TICKS } = LAYOUT
+
+// export type ChartPark = { _id: string; name: string; acres: number; annualVisitors: number }
+// type Metric = 'annualVisitors' | 'acres'
 
 const METRICS: Record<Metric, { label: string; unit: string }> = {
   annualVisitors: { label: 'Annual visitors', unit: 'visitors' },
   acres: { label: 'Acres', unit: 'acres' },
 }
 
-const W = 800
-const LABEL = 170
-const PAD_R = 24
-const TOP = 8
-const ROW = 28
-const BAR = 16
-const AXIS = 28
-const TICKS = 4
 
 const full = new Intl.NumberFormat('en-US')
 const compact = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 })
 
-function niceMax(v: number) {
-  const pow = 10 ** Math.floor(Math.log10(v))
-  const n = v / pow
-  return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * pow
-}
 
 export function ParksChart({ parks }: { parks: ChartPark[] }) {
 
@@ -52,13 +43,14 @@ export function ParksChart({ parks }: { parks: ChartPark[] }) {
 
   if (parks.length === 0) return null
 
-  const ranked = [...parks].sort((a, b) => b[metric] - a[metric])
+  const ranked = rankParks(parks, metric)
   const rank = new Map(ranked.map((p, i) => [p._id, i]))
   const max = niceMax(ranked[0][metric])
   const plotW = W - LABEL - PAD_R
   const H = TOP + parks.length * ROW + AXIS
-  const barW = (v: number) => (shown ? Math.max(2, (v / max) * plotW) : 0)
-  const { unit } = METRICS[metric]
+  const barW = (v: number) => (shown ? barWidth(v, max, plotW) : 0)
+
+     const { unit } = METRICS[metric]
 
   const active = parks.find((p) => p._id === activeId)
   const tip = active && {
