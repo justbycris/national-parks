@@ -1,3 +1,4 @@
+
 *, *::before, *::after {
   box-sizing: border-box;
   padding: 0;
@@ -22,7 +23,7 @@
 
   --radius: 6px;
   --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-serif: var(--font-serif), Georgia, serif;
 
   --text-sm: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
   --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
@@ -57,8 +58,8 @@ body {
 }
 
 h1, h2 {
-  font-family: var(--font-serif);
-  font-weight: 600;
+  font-family: var(--font-special-elite);
+  font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.05;
 }

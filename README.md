@@ -187,7 +187,12 @@ The site is deployed on Netlify from GitHub, which rebuilds on every push. Netli
 - **Teaser preview:** the homepage teaser is text and a button. A few static bars previewing the contrast would be more persuasive than words.
 - **Chart links:** bars could link to each park's detail page.
 - **Content entry:** I entered parks by hand in Studio, which is a good way to learn the editing flow but doesn't scale. A script that imports from the NPS API would be the next step.
-- **Testing:** there are no automated tests yet. Visual regression and accessibility checks on the chart would be the first additions.
+## Testing and CI
+
+- **Unit tests (Vitest):** cover the chart's ranking order, axis rounding, and bar-width math, including edge cases like ties and zero values. The logic lives in `src/lib/chart.ts`, separate from the React component, so it can be tested directly.
+- **Browser tests (Playwright):** one test checks that the region filter updates the URL and narrows the list, and one checks that the chart toggle re-ranks the bars and that bars can be focused with the keyboard.
+- **CI (GitHub Actions):** every pull request runs lint, type checking, unit tests, a production build, and the browser tests. `main` requires the checks to pass before merging.
+
 - **Page weight:** images are served through `next/image`, but Sanity's image pipeline can also resize and convert formats at the CDN, which I haven't taken advantage of yet.
 
 ## Scores
